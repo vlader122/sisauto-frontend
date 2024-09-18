@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-topbar',
@@ -8,6 +9,7 @@ import { LayoutService } from "./service/app.layout.service";
 })
 export class AppTopBarComponent {
 
+    appTitulo = environment.app;
     items!: MenuItem[];
 
     @ViewChild('menubutton') menuButton!: ElementRef;

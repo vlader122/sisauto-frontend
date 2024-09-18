@@ -1,5 +1,24 @@
 <app-titulo></app-titulo>
-<p>
-    este es mi contenido de mi formulario
-</p>
+<label for="nombre"> Nombre: </label>
+<input [(ngModel)]="nombre" type="text" name="nombre" placeholder="Ingrese su nombre" >
+<label for="correo"> Correo: </label>
+<input [(ngModel)]="correo" type="email" name="correo" placeholder="Ingrese su correo">
+<label for="telefono"> telefono: </label>
+<input [(ngModel)]="telefono" type="text" name="telefono" placeholder="Ingrese su telefono">
+<button (click)="adicionar()">Agregar</button>
 <app-boton></app-boton>
+
+<h2>Lista de Contactos</h2>
+<div>
+    <table [width]="500">
+        <tr>
+            <th>Nro</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>telefono</th>
+        </tr>
+        @for (contacto of contactos; track $index) {
+            <tr><td>{{ $index }}</td><td>{{ contacto.nombre }}</td><td>{{ contacto.correo }}</td><td>{{contacto.telefono}}</td></tr>
+        }
+    </table>
+</div>
