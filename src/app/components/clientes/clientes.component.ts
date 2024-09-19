@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Clientes } from 'src/app/models/Clientes';
 import { Paises } from 'src/app/models/Paises';
 import { ClientesService } from 'src/app/service/clientes.service';
@@ -14,25 +14,30 @@ export class ClientesComponent implements OnInit{
     dato: Clientes;
     paises: Paises[];
     estado: string = "";
+    clientes: Clientes[] = [];
 
-    formulario:FormGroup;
+    products: Clientes[] = [];
+    cols: any[] = [];
+
+    formulario: FormGroup;
     enviando: boolean = false;
-
     constructor(
         private _paisesService: PaisesService,
         private _clientesService:ClientesService,
         private _fb:FormBuilder
-    ) {}
+    ) {
+        this.formulario = new FormGroup({
+            nombre: new FormControl('',[Validators.required,Validators.minLength(2)]),
+            apellido: new FormControl('',[Validators.required]),
+            direccion: new FormControl,
+            telefono: new FormControl,
+            paisID: new FormControl('',[Validators.required])
+        })
+    }
 
     ngOnInit(): void {
         this.fpaises();
-        this.formulario = new FormGroup({
-            Nombre: new FormControl(),
-            Apellido: new FormControl(),
-            Telefono: new FormControl(),
-            Direccion: new FormControl(),
-            PaisID: new FormControl(),
-        });
+        this.fclientes();
     }
 
     fpaises(){
@@ -41,18 +46,25 @@ export class ClientesComponent implements OnInit{
         })
     }
 
+    fclientes(){
+        this._clientesService.obtenerClientes().subscribe( dato => {
+            this.clientes = dato
+            console.log(this.clientes);
+
+        })
+    }
+
     faceptar(): void{
-        this.enviando = true;
-        this.dato.Nombre = this.formulario.value.Nombre;
-        this.dato.Apellido = this.formulario.value.Apellido;
-        this.dato.Telefono = this.formulario.value.Telefono;
-        this.dato.Direccion = this.formulario.value.Direccion;
-        this.dato.PaisID = this.formulario.value.PaisID;
+        this.dato = new Clientes;
+        this.dato.Nombre = this.formulario.value.nombre;
+        this.dato.Apellido = this.formulario.value.apellido;
+        this.dato.Direccion = this.formulario.value.direccion;
+        this.dato.Telefono = this.formulario.value.telefono;
+        this.dato.PaisID = this.formulario.value.paisID;
 
         this._clientesService.guardarCliente(this.dato).subscribe( dato => {
-            console.log(dato);
+             console.log(dato);
         });
-        console.log(JSON.stringify(this.dato));
 
     }
 

@@ -7,7 +7,9 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { ToastModule } from 'primeng/toast';
+import { ToolbarModule } from 'primeng/toolbar';
+import { TableModule } from 'primeng/table';
 
 
 @NgModule({
@@ -20,6 +22,9 @@ import { DropdownModule } from 'primeng/dropdown';
     InputTextModule,
     DropdownModule,
     ReactiveFormsModule,
+    ToastModule,
+    ToolbarModule,
+    TableModule,
 ],
     declarations: [ClientesComponent]
 })

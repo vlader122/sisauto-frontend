@@ -11,6 +11,10 @@ export class ClientesService {
   ruta = `${environment.rutaBackend}/Clientes`;
   constructor(private _httpClient:HttpClient) { }
 
+  obtenerClientes(): Observable<Clientes[]> {
+    return this._httpClient.get<Clientes[]>(this.ruta);
+  }
+
   guardarCliente(cliente:Clientes): Observable<any> {
     return this._httpClient.post<void>(this.ruta,cliente);
   }
