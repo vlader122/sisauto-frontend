@@ -90,7 +90,9 @@ export class ClientesComponent implements OnInit{
 
         this.eliminarClienteDialog = false;
 
-        this._clientesService.eliminarCliente(this.clienteIdEliminar).subscribe(dato => {});
+        this._clientesService.eliminarCliente(this.clienteIdEliminar).subscribe(dato => {
+            this.fclientes();
+        });
         this._messageService.add({ severity: 'warn', summary: 'Correcto', detail: 'Cliente Eliminado', life: 3000 });
     }
 
