@@ -10,6 +10,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { ToastModule } from 'primeng/toast';
 import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import { TableModule } from 'primeng/table';
     ToastModule,
     ToolbarModule,
     TableModule,
+    DialogModule
 ],
     declarations: [ClientesComponent]
 })

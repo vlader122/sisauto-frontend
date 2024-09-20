@@ -1,46 +1,14 @@
-<div class="grid">
-	<div class="col-12">
-		<div class="card">
-			<h3>{{titulo}}</h3>
-            <form [formGroup]="formulario" (ngSubmit)="faceptar()">
-                <div class="p-fluid p-formgrid grid">
-                    <div class="field col-12 md:col-6">
-                        <label htmlFor="nombre">Nombre</label>
-                        <input formControlName="nombre" pInputText id="nombre" type="text" />
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <label htmlFor="apellido">Apellido</label>
-                        <input formControlName="apellido" pInputText id="apellido" type="text" />
-                    </div>
-                    <div class="field col-12">
-                        <label htmlFor="direccion">Direccion</label>
-                        <input formControlName="direccion" pInputTextarea id="direccion" rows="4" />
-                    </div>
-                    <div class="field col-12 md:col-6">
-                        <label htmlFor="telefono">Telefono</label>
-                        <input formControlName="telefono" pInputText id="telefono" type="text" />
-                    </div>
-                    <div class="field col-12 md:col-3">
-                        <label htmlFor="pais">Pais</label>
-                        <p-dropdown formControlName="paisID" [options]="paises" optionLabel="nombre" optionValue="paisID"></p-dropdown>
-                    </div>
-                </div>
-                <button pButton [disabled]="!formulario.valid" label="Guardar"></button>
-            </form>
-		</div>
-	</div>
-</div>
+
 
 <!-- CRUD -->
-
+<p-toast></p-toast>
 <div class="grid">
     <div class="col-12">
         <div class="card px-6 py-6">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
-                        <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-                        <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger"></button>
+                        <button pButton pRipple label="Nuevo Cliente" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrirDialog()"></button>
                     </div>
                 </ng-template>
 
@@ -96,7 +64,7 @@
                         <td>
                             <div class="flex">
                                 <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" ></button>
-                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" ></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="feliminar(clientes.clienteID)" ></button>
                             </div>
                         </td>
                     </tr>
@@ -106,3 +74,49 @@
     </div>
 </div>
 
+<p-dialog [(visible)]="clientesDialog" [style]="{width: '450px'}" header={{titulo}} [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+
+        <form [formGroup]="formulario">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="nombre">Nombre</label>
+                    <input formControlName="nombre" pInputText id="nombre" type="text" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="apellido">Apellido</label>
+                    <input formControlName="apellido" pInputText id="apellido" type="text" />
+                </div>
+                <div class="field col-12">
+                    <label htmlFor="direccion">Direccion</label>
+                    <input formControlName="direccion" pInputTextarea id="direccion" rows="4" />
+                </div>
+                <div class="field col-12 md:col-12">
+                    <label htmlFor="pais">Pais</label>
+                    <p-dropdown formControlName="paisID" [options]="paises" optionLabel="nombre"
+                        optionValue="paisID"></p-dropdown>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="telefono">Telefono</label>
+                    <input formControlName="telefono" pInputText id="telefono" type="text" />
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
+        <button pButton [disabled]="!formulario.valid" pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="faceptar()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="eliminarClienteDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="dato">Esta seguro en eliminar al Cliente <b>{{dato.nombre + " " + dato.apellido}}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="eliminarClienteDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="SI" (click)="confirmDelete()"></button>
+    </ng-template>
+</p-dialog>

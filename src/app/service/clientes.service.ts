@@ -18,4 +18,9 @@ export class ClientesService {
   guardarCliente(cliente:Clientes): Observable<any> {
     return this._httpClient.post<void>(this.ruta,cliente);
   }
+
+  eliminarCliente(id:number): Observable<any> {
+    return this._httpClient.delete<any>(this.ruta + '/' + id);
+  }
+
 }
