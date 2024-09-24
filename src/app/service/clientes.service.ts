@@ -23,4 +23,7 @@ export class ClientesService {
     return this._httpClient.delete<any>(this.ruta + '/' + id);
   }
 
+  actualizarCliente(cliente:Clientes): Observable<any> {
+    return this._httpClient.put<void>(this.ruta + '/' + cliente.ClienteID,cliente);
+  }
 }
