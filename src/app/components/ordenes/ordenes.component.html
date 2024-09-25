@@ -1,0 +1,118 @@
+
+
+<!-- CRUD -->
+<p-toast></p-toast>
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Nuevo Orden" icon="pi pi-plus" class="p-button-success mr-2" (click)="abrirDialog()"></button>
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block"></p-fileUpload>
+                    <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help" (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="ordenes" responsiveLayout="scroll" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h3 class="m-0">Administrar {{titulo}}</h3>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" placeholder="Search..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 2%">
+                            Nro
+                        </th>
+                        <th pSortableColumn="code">Cliente <p-sortIcon field="code"></p-sortIcon></th>
+                        <th pSortableColumn="app">Fecha <p-sortIcon field="app"></p-sortIcon></th>
+                        <th pSortableColumn="name">Total <p-sortIcon field="name"></p-sortIcon></th>
+                        <th>Operaciones</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-ordenes>
+                    <tr>
+                        <td style="width:2%; min-width:10rem;">
+                            {{ordenes.ordenID}}
+                        </td>
+                        <td style="width:30%; min-width:10rem;">
+                            {{ordenes.cliente.nombre + ' ' +ordenes.cliente.apellido}}
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            {{ordenes.fecha}}
+                        </td>
+                        <td style="width:30%; min-width:10rem;">
+                            {{ordenes.total}}
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="feditar(ordenes)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="feliminar(ordenes)" ></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="ordenesDialog" [style]="{width: '700px'}" [header]="operacion + ' ' + titulo" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+
+        <form [formGroup]="formulario">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-12">
+                    <label htmlFor="pais">Seleccione un cliente</label>
+                    <p-autoComplete
+                        formControlName="clienteID"
+                        [suggestions]="clientesFiltrados"
+                        (completeMethod)="clientesFiltro($event)"
+                        field="nombre" />
+                </div>
+                <div class="field col-12 md:col-6">
+                    <label htmlFor="pais">Seleccione un Servicio</label>
+                    <p-autoComplete
+                        formControlName="servicio"
+                        [suggestions]="serviciosFiltrados"
+                        (completeMethod)="serviciosFiltro($event)"
+                        field="nombreServicio" />
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="cantidad">Cantidad</label>
+                    <input formControlName="cantidad" pInputText id="cantidad" type="number" (change)="calcularSubtotal()"/>
+                </div>
+                <div class="field col-12 md:col-3">
+                    <label htmlFor="subtotal">SubTotal</label>
+                    <input formControlName="subtotal" pInputText id="subtotal" [readonly]="true" />
+
+                </div>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="ocultarDialog()"></button>
+        <button pButton [disabled]="!formulario.valid" pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="faceptar()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="eliminarOrdenDialog" header="Confirmacion" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="dato">Esta seguro en eliminar al Orden <b>{{dato.Nombre + " " + dato.Apellido}}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="eliminarOrdenDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="SI" (click)="confirmDelete()"></button>
+    </ng-template>
+</p-dialog>
