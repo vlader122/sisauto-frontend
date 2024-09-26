@@ -1,14 +1,12 @@
-import { ThisReceiver } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/api';
 import { Clientes } from 'src/app/models/Clientes';
+import { DetalleOrdenes } from 'src/app/models/DetalleOrdenes';
 import { Ordenes } from 'src/app/models/Ordenes';
-import { Paises } from 'src/app/models/Paises';
 import { Servicios } from 'src/app/models/Servicios';
 import { ClientesService } from 'src/app/service/clientes.service';
 import { OrdenesService } from 'src/app/service/ordenes.service';
-import { PaisesService } from 'src/app/service/paises.service';
 import { ServiciosService } from 'src/app/service/servicios.service';
 
 interface AutoCompleteCompleteEvent {
@@ -26,6 +24,8 @@ export class OrdenesComponent implements OnInit{
     dato: Ordenes = new Ordenes;
     clientes: Clientes[];
     servicios: Servicios[];
+
+    detalleOrdenes: DetalleOrdenes[] = [];
 
     estado: string = "";
     ordenes: Ordenes[] = [];
@@ -45,6 +45,7 @@ export class OrdenesComponent implements OnInit{
         private _messageService:MessageService,
     ) {
         this.formulario = new FormGroup({
+            detalleOrdenesID: new FormControl(),
             clienteID: new FormControl('',[Validators.required,Validators.minLength(2)]),
             servicio: new FormControl('',[Validators.required,Validators.minLength(2)]),
             cantidad: new FormControl('',[Validators.required]),
@@ -172,5 +173,14 @@ export class OrdenesComponent implements OnInit{
         const subtotal = cantidad * costoServicio;
 
         this.formulario.patchValue({ subtotal: subtotal });
+    }
+
+    addDetalle(){
+        this.formulario.value.detalleOrdenesID = this.detalleOrdenes.length;
+        this.detalleOrdenes.push(this.formulario.value);
+    }
+
+    quitarDetalle(){
+        this.detalleOrdenes.splice(this.formulario.value.detalleOrdenesID, 1);
     }
 }

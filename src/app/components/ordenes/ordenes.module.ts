@@ -12,6 +12,8 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { TableModule } from 'primeng/table';
 import { DialogModule } from 'primeng/dialog';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { DividerModule } from 'primeng/divider';
+
 
 @NgModule({
     imports: [
@@ -27,7 +29,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
     ToolbarModule,
     TableModule,
     DialogModule,
-    AutoCompleteModule
+    AutoCompleteModule,
+    DividerModule,
 ],
     declarations: [OrdenesComponent]
 })
