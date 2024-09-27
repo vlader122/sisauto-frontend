@@ -105,7 +105,6 @@ export class OrdenesComponent implements OnInit{
             this._messageService.add({ severity: 'success', summary: 'Correcto', detail: 'Orden Actualizado', life: 3000 });
         }
 
-
         this.ordenesDialog = false;
         this.formulario.reset();
     }

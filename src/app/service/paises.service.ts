@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class PaisesService {
-  ruta = `${environment.rutaBackend}/Paises`;
+  ruta = `${environment.rutaBackend}/api/Paises`;
   constructor(private _httpClient: HttpClient) { }
 
   obtenerPaises(): Observable<Paises[]> {
