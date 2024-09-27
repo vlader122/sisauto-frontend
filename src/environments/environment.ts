@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   app: 'SISAUTO',
-  rutaBackend: 'http://localhost:5257',
+  rutaBackend: 'http://vlader122-001-site1.atempurl.com',
   token: 'token'
 };
 
